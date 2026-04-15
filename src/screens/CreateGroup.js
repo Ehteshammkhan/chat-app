@@ -29,7 +29,6 @@ export default function CreateGroup() {
 
     setIsLoading(true);
 
-    // Simulate a small delay for better UX
     setTimeout(() => {
       const newGroup = createGroup(name);
       setIsLoading(false);

@@ -22,7 +22,6 @@ export default function ChatScreen() {
   const parsedGroup = JSON.parse(group);
   const { messages, sendMessage, typing, isSending } = useChat();
   const [text, setText] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef(null);
   const insets = useSafeAreaInsets();
 
@@ -31,32 +30,20 @@ export default function ChatScreen() {
 
   const groupMessages = messages[parsedGroup.id] || [];
 
-  // Auto scroll to bottom
   useEffect(() => {
     if (groupMessages.length > 0) {
       flatListRef.current?.scrollToEnd({ animated: true });
     }
   }, [groupMessages]);
 
-  // Handle typing indicator
   const handleTextChange = (newText) => {
     setText(newText);
 
-    if (!isTyping) {
-      setIsTyping(true);
-      // Emit typing event to your backend here
-    }
-
-    // Clear existing timeout
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
 
-    // Set timeout to stop typing indicator after 1 second of no input
-    typingTimeoutRef.current = setTimeout(() => {
-      setIsTyping(false);
-      // Emit stop typing event here
-    }, 1000);
+    typingTimeoutRef.current = setTimeout(() => {}, 1000);
   };
 
   const handleSend = async () => {
@@ -64,16 +51,13 @@ export default function ChatScreen() {
 
     const messageText = text.trim();
     setText("");
-    setIsTyping(false);
 
-    // Clear typing timeout
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
 
     await sendMessage(parsedGroup.id, messageText);
 
-    // Focus back on input after sending
     inputRef.current?.focus();
   };
 
@@ -87,11 +71,10 @@ export default function ChatScreen() {
     <>
       <StatusBar barStyle="light-content" backgroundColor="#075E54" />
       <View style={[styles.container, { paddingTop: insets.top }]}>
-        {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => router.replace("/")}
+            onPress={() => router.dismissTo("/")}
           >
             <Ionicons name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
@@ -111,7 +94,6 @@ export default function ChatScreen() {
           </View>
         </View>
 
-        {/* Messages */}
         <FlatList
           ref={flatListRef}
           data={groupMessages}
@@ -122,19 +104,15 @@ export default function ChatScreen() {
           onLayout={() => flatListRef.current?.scrollToEnd({ animated: false })}
         />
 
-        {/* Typing Indicator */}
-        {(typing[parsedGroup.id] || isTyping) && (
+        {typing[parsedGroup.id] && (
           <View style={styles.typingContainer}>
             <View style={styles.typingBubble}>
               <ActivityIndicator size="small" color="#075E54" />
-              <Text style={styles.typingText}>
-                {typing[parsedGroup.id] ? "Someone is typing..." : "Typing..."}
-              </Text>
+              <Text style={styles.typingText}>Someone is typing...</Text>
             </View>
           </View>
         )}
 
-        {/* Input Area */}
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
