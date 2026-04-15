@@ -91,7 +91,7 @@ export default function ChatScreen() {
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => router.push("/")}
+            onPress={() => router.replace("/")}
           >
             <Ionicons name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
