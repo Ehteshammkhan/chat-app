@@ -1,50 +1,54 @@
-# Welcome to your Expo app 👋
+# 📱 P2P Real-Time Group Chat (MockSocket)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 🚀 Overview
 
-## Get started
+This project is a real-time group chat module built using React Native (Expo) as part of an assignment.
 
-1. Install dependencies
+It simulates peer-to-peer messaging using a mock socket system without any backend.
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## ✨ Features
 
-   ```bash
-   npx expo start
-   ```
+* 📌 Group chat system
+* 💬 Real-time messaging (MockSocket)
+* ⌨️ Typing indicators
+* ✔️ Read receipts (single tick / double tick)
+* ➕ Create new group flow
+* 📜 Vertical message feed
+* ⚡ Instant UI updates using Context API
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🛠 Tech Stack
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+* React Native (Expo SDK 51+)
+* Expo Router
+* Context API (state management)
+* MockSocket (simulated real-time events)
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## ▶️ How to Run
 
 ```bash
-npm run reset-project
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 📹 Demo Video
+https://drive.google.com/file/d/1bpbcus9V7-mT8t_4Pllht-7ZU_0X13A5/view?usp=drivesdk
 
-To learn more about developing your project with Expo, look at the following resources:
+## 📌 Notes
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+* No backend used (as per assignment requirement)
+* All real-time behavior is simulated
+* Focus on functionality and clean architecture
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 👨‍💻 Author
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Ehtesham Khan
