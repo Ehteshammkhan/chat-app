@@ -87,64 +87,64 @@ export default function ChatScreen() {
     <>
       <StatusBar barStyle="light-content" backgroundColor="#075E54" />
       <View style={[styles.container, { paddingTop: insets.top }]}>
-        <KeyboardAvoidingView
-          style={styles.keyboardView}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-        >
-          {/* Header */}
-          <View style={styles.header}>
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => router.back()}
-            >
-              <Ionicons name="arrow-back" size={24} color="#fff" />
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => router.push("/")}
+          >
+            <Ionicons name="arrow-back" size={24} color="#fff" />
+          </TouchableOpacity>
+          <View style={styles.headerInfo}>
+            <Text style={styles.headerTitle}>{parsedGroup.name}</Text>
+            <Text style={styles.headerSubtitle}>
+              {typing[parsedGroup.id] ? "Typing..." : "Online"}
+            </Text>
+          </View>
+          <View style={styles.headerActions}>
+            <TouchableOpacity style={styles.headerButton}>
+              <Ionicons name="videocam" size={22} color="#fff" />
             </TouchableOpacity>
-            <View style={styles.headerInfo}>
-              <Text style={styles.headerTitle}>{parsedGroup.name}</Text>
-              <Text style={styles.headerSubtitle}>
-                {typing[parsedGroup.id] ? "Typing..." : "Online"}
+            <TouchableOpacity style={styles.headerButton}>
+              <Ionicons name="call" size={22} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Messages */}
+        <FlatList
+          ref={flatListRef}
+          data={groupMessages}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <MessageBubble message={item} />}
+          contentContainerStyle={styles.messageList}
+          showsVerticalScrollIndicator={false}
+          onLayout={() => flatListRef.current?.scrollToEnd({ animated: false })}
+        />
+
+        {/* Typing Indicator */}
+        {(typing[parsedGroup.id] || isTyping) && (
+          <View style={styles.typingContainer}>
+            <View style={styles.typingBubble}>
+              <ActivityIndicator size="small" color="#075E54" />
+              <Text style={styles.typingText}>
+                {typing[parsedGroup.id] ? "Someone is typing..." : "Typing..."}
               </Text>
             </View>
-            <View style={styles.headerActions}>
-              <TouchableOpacity style={styles.headerButton}>
-                <Ionicons name="videocam" size={22} color="#fff" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.headerButton}>
-                <Ionicons name="call" size={22} color="#fff" />
-              </TouchableOpacity>
-            </View>
           </View>
+        )}
 
-          {/* Messages */}
-          <FlatList
-            ref={flatListRef}
-            data={groupMessages}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <MessageBubble message={item} />}
-            contentContainerStyle={styles.messageList}
-            showsVerticalScrollIndicator={false}
-            onLayout={() =>
-              flatListRef.current?.scrollToEnd({ animated: false })
-            }
-          />
-
-          {/* Typing Indicator */}
-          {(typing[parsedGroup.id] || isTyping) && (
-            <View style={styles.typingContainer}>
-              <View style={styles.typingBubble}>
-                <ActivityIndicator size="small" color="#075E54" />
-                <Text style={styles.typingText}>
-                  {typing[parsedGroup.id]
-                    ? "Someone is typing..."
-                    : "Typing..."}
-                </Text>
-              </View>
-            </View>
-          )}
-
-          {/* Input Area */}
-          <View style={styles.inputWrapper}>
+        {/* Input Area */}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+        >
+          <View
+            style={[
+              styles.inputWrapper,
+              { paddingBottom: Platform.OS === "ios" ? 20 : 8 },
+            ]}
+          >
             <View style={styles.inputContainer}>
               <TouchableOpacity style={styles.attachButton}>
                 <Ionicons name="attach" size={24} color="#075E54" />
@@ -199,9 +199,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#E5DDD5",
   },
-  keyboardView: {
-    flex: 1,
-  },
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -238,11 +235,13 @@ const styles = StyleSheet.create({
   messageList: {
     paddingVertical: 10,
     paddingHorizontal: 12,
+    paddingBottom: 10,
     flexGrow: 1,
   },
   typingContainer: {
     paddingHorizontal: 16,
     paddingVertical: 8,
+    backgroundColor: "#E5DDD5",
   },
   typingBubble: {
     flexDirection: "row",

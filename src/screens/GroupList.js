@@ -13,7 +13,7 @@ export default function GroupList() {
   const router = useRouter();
 
   const handleGroupPress = (group) => {
-    router.push({
+    router.replace({
       pathname: "/chat",
       params: { group: JSON.stringify(group) },
     });
